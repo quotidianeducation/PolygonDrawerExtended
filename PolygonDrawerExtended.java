@@ -18,7 +18,6 @@ import java.io.FileWriter;
  * @version Nov 21st 2024
  */
 
-
 /**
  * An extended version of the PolygonDrawer that adds the ability to load and save polygons from/to a text file.
  * This class allows users to draw polygons using mouse clicks, display centroids,
@@ -231,6 +230,10 @@ public class PolygonDrawerExtended extends JPanel implements MouseListener, KeyL
             List<Point> currentPolygon = new ArrayList<>();
             while ((line = reader.readLine()) != null) {
                 line = line.trim();
+                // Ignore comment lines
+                if (line.startsWith("#")) {
+                    continue;
+                }
                 if (line.isEmpty()) {
                     if (!currentPolygon.isEmpty()) {
                         polygons.add(new ArrayList<>(currentPolygon));
