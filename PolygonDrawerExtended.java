@@ -11,11 +11,11 @@ import java.io.FileWriter;
 
 /**
  * Draw polygons dictated by mouse click and arrow key in BlueJ. 
- * Centroids drawn. 
+ * Centroids drawn. Both a valid centroid based on area and an approximate Centroid based on average of Points.
  * Panel Points saved to a file. A new instantiation loads Points from the file and draws them.
  *
  * @author Graham C Roberts
- * @version Nov 21st 2024
+ * @version Nov 22nd 2024
  */
 
 /**
@@ -69,6 +69,44 @@ public class PolygonDrawerExtended extends JPanel implements MouseListener, KeyL
         return new Point((int)Math.round(cx), (int)Math.round(cy));
     }
 
+    /** 
+     * Calculates the approximate centroid of a polygon using the arithmetic mean 
+     * of the points' coordinates. This method does not account for the area of the 
+     * polygon, making it a less accurate estimate, particularly for non-convex 
+     * shapes or when vertices are widely spaced.
+     * 
+     * @param polygon List of Points representing the vertices of the polygon.
+     * @return A Point representing the approximate centroid of the given polygon.
+     * 
+     * This method sums the x-coordinates and y-coordinates of all vertices, 
+     * then divides each by the total number of points to find the corresponding 
+     * centroid coordinates. While this approach provides a quick estimate, it 
+     * may not accurately represent the true geometric center of the polygon, 
+     * particularly in cases where the polygon's shape is irregular or complex. 
+     * For a more precise centroid that considers the polygon's area, refer to 
+     * the calculateCentroid() method.
+     */
+    private Point approximateCentroid(List<Point> polygon) {
+        if (polygon == null || polygon.isEmpty()) {
+            return null; // Handle edge case where polygon is null or empty
+        }
+
+        int sumX = 0;
+        int sumY = 0;
+
+        // Sum the x and y coordinates of all points
+        for (Point pt : polygon) {
+            sumX += pt.x;
+            sumY += pt.y;
+        }
+
+        // Calculate the average coordinates
+        int mx = (int) Math.round(sumX / (double) polygon.size());
+        int my = (int) Math.round(sumY / (double) polygon.size());
+
+        return new Point(mx, my);
+    }
+
     /**
      * Paints the component, drawing all stored polygons and the current polygon.
      * Additionally, it draws centroids for completed polygons.
@@ -84,6 +122,8 @@ public class PolygonDrawerExtended extends JPanel implements MouseListener, KeyL
             drawPolygon(g, polygon, Color.BLACK);
             Point centroid = calculateCentroid(polygon);
             drawCentroid(g, centroid);
+            Point centroidAM = approximateCentroid(polygon); // arithmetic mean of Points method
+            drawCentroidAM(g, centroidAM);
         }
 
         // Draw the active polygon
@@ -103,6 +143,16 @@ public class PolygonDrawerExtended extends JPanel implements MouseListener, KeyL
      */
     private void drawCentroid(Graphics g, Point centroid) {
         g.setColor(Color.RED);
+        g.fillOval(centroid.x - 5, centroid.y - 5, 10, 10);
+    }
+
+    /**
+     * Draws the centroid of a polygon on the panel.
+     * @param g The Graphics context used for drawing.
+     * @param centroid The Point representing the centroid to be drawn.
+     */
+    private void drawCentroidAM(Graphics g, Point centroid) {
+        g.setColor(Color.BLUE);
         g.fillOval(centroid.x - 5, centroid.y - 5, 10, 10);
     }
 

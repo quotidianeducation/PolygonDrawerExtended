@@ -1,10 +1,34 @@
+Project Title: Polygon Drawer
+Purpose of Project
+This project demonstrates a graphical application that allows users to draw polygons using mouse clicks and arrow keys, compute their centroids, and manage polygon data through file operations.
 
-PROJECT TITLE:Draw polygons dictated by mouse click and arrow key in BlueJ, centroids drawn and panel Points saved to a file and on run loaded from the file.
+Version
+November 2024
 
-PURPOSE OF PROJECT: Demonstration
-VERSION or DATE: November 2024
-HOW TO START THIS PROJECT: main method
-AUTHORS: Graham C Roberts
-USER INSTRUCTIONS: In Windows, use the left mouse button clicked on the "canvas" to create a coordinate and thereafter the next coordinated to draw a line to and so draw an unclosed polygon. Start another by pressing an arrow key. When arrow key is pressed, the current polygon Points are printed to standard output.
+How to Start this Project
+To run the application, execute the main method in the PolygonDrawerExtended class.
 
-NOTE: The extension program reads coordinate Points from a text file and draws them to complement the printed output to the terminal in the initial program. To complement this, on press of the space bar the Points are sent to the text file.  Centroids (the geometric centre of the polygon) are computed and shown on the panel as red circles.
+Authors
+Graham C. Roberts
+
+User Instructions
+
+Drawing Polygons: 
+
+Use the left mouse button to click on the canvas. Each click creates a vertex of the polygon, connecting to the next point until the polygon is complete. To start a new polygon, press any arrow key (up, down, left, or right).
+Output: 
+
+The coordinates of the active polygon are printed to the standard output (console) each time the arrow key is pressed.
+
+File Operations:
+
+The application reads coordinate points from a text file upon startup and draws them onto the canvas.
+Press the space bar to save the currently drawn polygons' coordinates to a text file named polygon_coordinates.txt.
+
+Notes on Extension
+
+This extended version of the project enhances the functionality by allowing users to load polygon points from a text file at startup. 
+
+Centroid Calculation
+
+The centroids (the geometric centers of the polygons) are calculated and displayed as red circles on the panel using the calculateCentroid() method. Additionally, an alternative centroid is computed via ApproximateCentroid(), method that calculates an approximate centroid based solely on the arithmetic mean of the points and is displayed as blue circles. While ApproximateCentroid() provides a quick estimate, it may not always accurately reflect the true centroid of irregularly shaped polygons.
