@@ -31,4 +31,4 @@ This extended version of the project enhances the functionality by allowing user
 
 Centroid Calculation
 
-The centroids (the geometric centers of the polygons) are calculated and displayed as red circles on the panel using the calculateCentroid() method. Additionally, an alternative centroid is computed via ApproximateCentroid(), method that calculates an approximate centroid based solely on the arithmetic mean of the points and is displayed as blue circles. While ApproximateCentroid() provides a quick estimate, it may not always accurately reflect the true centroid of irregularly shaped polygons.
+The centroids (the geometric centers of the polygons) are calculated and displayed as red circles on the panel using the calculateCentroid() method. Additionally, an alternative centroid is computed via ApproximateCentroid(), method that calculates an approximate centroid based solely on the arithmetic mean of the points and is displayed as blue circles. While approximateCentroid() provides a quick estimate, it may not always accurately reflect the true centroid of irregularly shaped polygons.
