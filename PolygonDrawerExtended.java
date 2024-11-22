@@ -23,11 +23,12 @@ import java.io.FileWriter;
  * This class allows users to draw polygons using mouse clicks, display centroids,
  * and manage polygon data through file operations.
  */
-public class PolygonDrawerExtended extends JPanel implements MouseListener, KeyListener {
+public class PolygonDrawerExtended extends JPanel implements MouseListener, KeyListener, MouseMotionListener {
 
     private List<List<Point>> polygons;     /** Stores all completed polygons. */
     private List<Point> currentPolygon;     /** Stores points for the polygon currently being drawn. */
     private Color currentPolygonColor = Color.RED; /** Color used for the currently active polygon. */
+    private Point cursorPosition = new Point(0, 0); /** To store the current mouse cursor position */
 
     /**
      * Constructor for the PolygonDrawerExtended class.
@@ -37,6 +38,7 @@ public class PolygonDrawerExtended extends JPanel implements MouseListener, KeyL
         polygons = new ArrayList<>();
         currentPolygon = new ArrayList<>();
         addMouseListener(this);
+        addMouseMotionListener(this); // Add the mouse motion listener
         addKeyListener(this);
         setFocusable(true);
     }
@@ -88,6 +90,10 @@ public class PolygonDrawerExtended extends JPanel implements MouseListener, KeyL
         if (!currentPolygon.isEmpty()) {
             drawPolygon(g, currentPolygon, currentPolygonColor);
         }
+
+        // Draw current cursor position at (10, 20)
+        g.setColor(Color.BLACK);
+        g.drawString("Cursor Position: (" + cursorPosition.x + ", " + cursorPosition.y + ")", 10, 20);
     }
 
     /**
@@ -119,6 +125,20 @@ public class PolygonDrawerExtended extends JPanel implements MouseListener, KeyL
                 g.drawString("(" + p.x + ", " + p.y + ")", p.x + 5, p.y + 15);
             }
         }
+
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        cursorPosition.setLocation(e.getX(), e.getY()); // Update cursor position on mouse moved
+        repaint(); // Optional: repaint panel if you want to update immediately
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        // Optional: if you want to update during dragging as well
+        cursorPosition.setLocation(e.getX(), e.getY()); // Update cursor position
+        repaint(); // Optional: repaint panel if you want
     }
 
     /**
@@ -127,8 +147,8 @@ public class PolygonDrawerExtended extends JPanel implements MouseListener, KeyL
      */
     @Override
     public void mouseClicked(MouseEvent e) {
-        // Add point to current polygon
         currentPolygon.add(new Point(e.getX(), e.getY()));
+        cursorPosition.setLocation(e.getX(), e.getY()); // Update cursor position
         System.out.println("Point added: (" + e.getX() + ", " + e.getY() + ")");
         repaint();
     }
